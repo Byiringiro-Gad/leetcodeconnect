@@ -7,23 +7,19 @@
 class Solution:
     def balanceBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         res = []
-        self.inorder(root, res)
-        return self.build(0, len(res)-1, res)
-    def inorder(self, node, res):
-        if not node:
+        self.helper(root, res)
+        return self.merge(0, len(res)-1, res)
+    def helper(self, root, res):
+        if not root:
             return
-        self.inorder(node.left, res)
-        res.append(node.val)
-        self.inorder(node.right, res)
-
-    def build(self, left, right, res):
-        if left  > right:
+        self.helper(root.left, res)
+        res.append(root.val)
+        self.helper(root.right, res)
+    def merge(self, left, right, res):
+        if left > right:
             return
-        mid = (left + right)//2
+        mid = (left + right)// 2
         root = TreeNode(res[mid])
-        root.left = self.build(left, mid-1, res)
-        root.right = self.build(mid + 1, right, res)
+        root.left = self.merge(left, mid-1, res)
+        root.right = self.merge(mid+1, right, res)
         return root
-
-
-
